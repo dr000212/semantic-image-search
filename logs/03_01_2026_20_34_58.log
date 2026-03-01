@@ -1,0 +1,27 @@
+{"base_dir": "C:\\Users\\pkdee\\projects\\semantic-image-search", "timestamp": "2026-03-01T15:04:58.727123Z", "level": "info", "event": "BASE_DIR resolved successfully"}
+{"env_path": "C:\\Users\\pkdee\\projects\\semantic-image-search\\.env", "timestamp": "2026-03-01T15:04:58.728123Z", "level": "info", "event": ".env loaded successfully"}
+{"value": "C:\\Users\\pkdee\\projects\\semantic-image-search\\images", "timestamp": "2026-03-01T15:04:58.728123Z", "level": "info", "event": "IMAGES_ROOT configured"}
+{"value": "C:\\Users\\pkdee\\projects\\semantic-image-search\\data\\query_images", "timestamp": "2026-03-01T15:04:58.728123Z", "level": "info", "event": "QUERY_IMAGE_ROOT configured"}
+{"value": "C:\\Users\\pkdee\\projects\\semantic-image-search\\data\\retrieved", "timestamp": "2026-03-01T15:04:58.730125Z", "level": "info", "event": "RETRIEVED_ROOT configured"}
+{"value": "ViT-B-32", "timestamp": "2026-03-01T15:04:58.730125Z", "level": "info", "event": "CLIP_MODEL_NAME loaded"}
+{"value": "laion2b_s34b_b79k", "timestamp": "2026-03-01T15:04:58.730125Z", "level": "info", "event": "CLIP_CHECKPOINT loaded"}
+{"value": "cpu", "timestamp": "2026-03-01T15:04:58.730125Z", "level": "info", "event": "DEVICE selected"}
+{"value": "https://d7b5ea27-f09f-4a75-bf6c-75c70c688518.us-east-1-1.aws.cloud.qdrant.io:6333", "timestamp": "2026-03-01T15:04:58.730125Z", "level": "info", "event": "QDRANT_URL loaded"}
+{"timestamp": "2026-03-01T15:04:58.730125Z", "level": "info", "event": "QDRANT_API_KEY loaded (hidden)"}
+{"value": "semantic-image-search", "timestamp": "2026-03-01T15:04:58.730125Z", "level": "info", "event": "QDRANT_COLLECTION loaded"}
+{"value": 512, "timestamp": "2026-03-01T15:04:58.730125Z", "level": "info", "event": "VECTOR_SIZE loaded"}
+{"value": "gpt-4o-mini", "timestamp": "2026-03-01T15:04:58.731126Z", "level": "info", "event": "OPENAI_MODEL loaded"}
+{"timestamp": "2026-03-01T15:05:00.102816Z", "level": "info", "event": "Initializing ImageSearchService"}
+{"url": "https://d7b5ea27-f09f-4a75-bf6c-75c70c688518.us-east-1-1.aws.cloud.qdrant.io:6333", "using_api_key": true, "timestamp": "2026-03-01T15:05:00.102816Z", "level": "info", "event": "Initializing Qdrant client"}
+HTTP Request: GET https://d7b5ea27-f09f-4a75-bf6c-75c70c688518.us-east-1-1.aws.cloud.qdrant.io:6333 "HTTP/1.1 200 OK"
+{"timestamp": "2026-03-01T15:05:01.043454Z", "level": "info", "event": "Qdrant client initialized successfully"}
+{"timestamp": "2026-03-01T15:05:01.043454Z", "level": "info", "event": "Fetching existing Qdrant collections..."}
+HTTP Request: GET https://d7b5ea27-f09f-4a75-bf6c-75c70c688518.us-east-1-1.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 200 OK"
+{"collection": "semantic-image-search", "timestamp": "2026-03-01T15:05:01.802615Z", "level": "info", "event": "Using existing Qdrant collection"}
+{"collection": "semantic-image-search", "retrieved_root": "C:\\Users\\pkdee\\projects\\semantic-image-search\\data\\retrieved", "timestamp": "2026-03-01T15:05:01.803616Z", "level": "info", "event": "ImageSearchService initialized"}
+{"timestamp": "2026-03-01T15:05:01.803616Z", "level": "info", "event": "Initializing IndexService..."}
+{"timestamp": "2026-03-01T15:05:01.803616Z", "level": "info", "event": "Fetching existing Qdrant collections..."}
+HTTP Request: GET https://d7b5ea27-f09f-4a75-bf6c-75c70c688518.us-east-1-1.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 200 OK"
+{"collection": "semantic-image-search", "timestamp": "2026-03-01T15:05:02.070692Z", "level": "info", "event": "Using existing Qdrant collection"}
+{"collection": "semantic-image-search", "timestamp": "2026-03-01T15:05:02.070692Z", "level": "info", "event": "IndexService initialized successfully"}
+{"timestamp": "2026-03-01T15:05:02.070692Z", "level": "info", "event": "Services initialized successfully"}

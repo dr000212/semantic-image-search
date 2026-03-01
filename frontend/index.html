@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Semantic Image Search</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <main class="app">
+    <header class="header">
+      <h1>Semantic Image Search</h1>
+      <p>Search by text or image. Adjust k (1-6). Results show filename and score.</p>
+    </header>
+
+    <section class="panel">
+      <div class="mode">
+        <label>
+          <input type="radio" name="mode" value="text" checked />
+          Text
+        </label>
+        <label>
+          <input type="radio" name="mode" value="image" />
+          Image
+        </label>
+      </div>
+
+      <div class="field" id="textField">
+        <label for="queryText">Text query</label>
+        <input id="queryText" type="text" placeholder="e.g., red sports car on a road" />
+      </div>
+
+      <div class="field hidden" id="imageField">
+        <label for="queryImage">Image file</label>
+        <input id="queryImage" type="file" accept="image/*" />
+      </div>
+
+      <div class="field">
+        <label for="kRange">k value: <span id="kValue">3</span></label>
+        <input id="kRange" type="range" min="1" max="6" step="1" value="3" />
+      </div>
+
+      <div class="actions">
+        <button id="searchBtn">Search</button>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Results</h2>
+      <div id="status" class="status">Idle</div>
+      <ul id="results" class="results"></ul>
+    </section>
+  </main>
+
+  <script src="./app.js"></script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+{"base_dir": "C:\\Users\\pkdee\\projects", "timestamp": "2026-03-01T14:25:31.557661Z", "level": "info", "event": "BASE_DIR resolved successfully"}
+{"env_path": "C:\\Users\\pkdee\\projects\\.env", "timestamp": "2026-03-01T14:25:31.557661Z", "level": "warning", "event": ".env file not found"}
+{"value": "C:\\Users\\pkdee\\projects\\images", "timestamp": "2026-03-01T14:25:31.558689Z", "level": "info", "event": "IMAGES_ROOT configured"}
+{"value": "C:\\Users\\pkdee\\projects\\data\\query_images", "timestamp": "2026-03-01T14:25:31.558689Z", "level": "info", "event": "QUERY_IMAGE_ROOT configured"}
+{"value": "C:\\Users\\pkdee\\projects\\data\\retrieved", "timestamp": "2026-03-01T14:25:31.559705Z", "level": "info", "event": "RETRIEVED_ROOT configured"}
+{"value": "ViT-B-32", "timestamp": "2026-03-01T14:25:31.559705Z", "level": "info", "event": "CLIP_MODEL_NAME loaded"}
+{"value": "laion2b_s34b_b79k", "timestamp": "2026-03-01T14:25:31.559705Z", "level": "info", "event": "CLIP_CHECKPOINT loaded"}
+{"value": "cpu", "timestamp": "2026-03-01T14:25:31.559705Z", "level": "info", "event": "DEVICE selected"}
+{"timestamp": "2026-03-01T14:25:31.559705Z", "level": "warning", "event": "QDRANT_URL missing in environment"}
+{"timestamp": "2026-03-01T14:25:31.560704Z", "level": "info", "event": "QDRANT_API_KEY loaded (hidden)"}
+{"value": "semantic-image-search", "timestamp": "2026-03-01T14:25:31.560704Z", "level": "info", "event": "QDRANT_COLLECTION loaded"}
+{"value": 512, "timestamp": "2026-03-01T14:25:31.560704Z", "level": "info", "event": "VECTOR_SIZE loaded"}
+{"value": "gpt-4o-mini", "timestamp": "2026-03-01T14:25:31.560704Z", "level": "info", "event": "OPENAI_MODEL loaded"}
