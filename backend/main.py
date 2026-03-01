@@ -3,7 +3,9 @@ from pathlib import Path
 from typing import Optional, Dict, Any
 
 from fastapi import FastAPI, UploadFile, File, Query
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+from fastapi.staticfiles import StaticFiles
 
 from backend.config import Config
 from backend.query_translator import translate_query
@@ -19,6 +21,19 @@ app = FastAPI(
     version="1.0",
 )
 
+# Dev CORS: allow local frontend (file:// or localhost)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=False,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Serve local images for frontend display
+Config.IMAGES_ROOT.mkdir(parents=True, exist_ok=True)
+app.mount("/images", StaticFiles(directory=str(Config.IMAGES_ROOT)), name="images")
+
 # Lazy singletons
 search_service = None
 index_service = None
@@ -30,6 +45,35 @@ def init_services():
     search_service = ImageSearchService()
     index_service = IndexService()
     log.info("Services initialized successfully")
+
+
+def _image_url(path_value: str) -> Optional[str]:
+    if not path_value:
+        return None
+    p = Path(path_value)
+    image_root = Config.IMAGES_ROOT.resolve()
+    notebook_images = (Config.BASE_DIR / "notebook" / "images").resolve()
+
+    candidates = []
+    if p.is_absolute():
+        candidates.append(p.resolve())
+    else:
+        candidates.append((Config.BASE_DIR / p).resolve())
+        candidates.append((Config.BASE_DIR / "notebook" / p).resolve())
+
+    for cand in candidates:
+        try:
+            rel = cand.relative_to(image_root)
+            return f"/images/{rel.as_posix()}"
+        except Exception:
+            pass
+        try:
+            rel = cand.relative_to(notebook_images)
+            return f"/images/{rel.as_posix()}"
+        except Exception:
+            pass
+
+    return None
 
 
 # ---------------------------------------------------------
@@ -97,6 +141,7 @@ def search_text_endpoint(
                 "path": p.payload.get("path"),
                 "category": p.payload.get("category"),
                 "score": p.score,
+                "image_url": _image_url(p.payload.get("path")),
             }
             for p in results.points
         ]
@@ -147,6 +192,7 @@ def search_image_endpoint(
                 "path": p.payload.get("path"),
                 "category": p.payload.get("category"),
                 "score": p.score,
+                "image_url": _image_url(p.payload.get("path")),
             }
             for p in results.points
         ]
@@ -160,4 +206,38 @@ def search_image_endpoint(
 
     except Exception as e:
         log.error("Image search failed", filename=file.filename, error=str(e))
+        return JSONResponse(status_code=500, content={"error": str(e), "type": type(e).__name__})
+
+
+# ---------------------------------------------------------
+# RESET COLLECTION
+# ---------------------------------------------------------
+@app.post("/reset")
+def reset_collection():
+    log.warning("Reset request received")
+    try:
+        index_service.clear_collection()
+        log.info("Collection cleared successfully")
+        return {"message": "Collection cleared"}
+    except Exception as e:
+        log.error("Reset failed", error=str(e))
+        return JSONResponse(status_code=500, content={"error": str(e), "type": type(e).__name__})
+
+
+# ---------------------------------------------------------
+# REINDEX (CLEAR + INGEST)
+# ---------------------------------------------------------
+@app.post("/reindex")
+def reindex_images(
+    folder_path: Optional[str] = Query(None, description="Folder of images to reindex"),
+):
+    folder = folder_path or str(Config.IMAGES_ROOT)
+    log.warning("Reindex request received", folder=folder)
+    try:
+        index_service.clear_collection()
+        index_service.index_folder(folder)
+        log.info("Reindex completed", folder=folder)
+        return {"message": f"Reindexed images from {folder}"}
+    except Exception as e:
+        log.error("Reindex failed", folder=folder, error=str(e))
         return JSONResponse(status_code=500, content={"error": str(e), "type": type(e).__name__})

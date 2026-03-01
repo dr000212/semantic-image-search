@@ -9,6 +9,7 @@ const kRange = document.getElementById("kRange");
 const kValue = document.getElementById("kValue");
 const searchBtn = document.getElementById("searchBtn");
 const statusEl = document.getElementById("status");
+const translatedEl = document.getElementById("translated");
 const resultsEl = document.getElementById("results");
 
 function setMode(mode) {
@@ -33,6 +34,16 @@ function setStatus(text) {
   statusEl.textContent = text;
 }
 
+function setTranslated(text) {
+  if (text) {
+    translatedEl.textContent = `Translated: ${text}`;
+    translatedEl.classList.remove("hidden");
+  } else {
+    translatedEl.textContent = "";
+    translatedEl.classList.add("hidden");
+  }
+}
+
 function clearResults() {
   resultsEl.innerHTML = "";
 }
@@ -47,11 +58,13 @@ function renderResults(items) {
   items.forEach((item, idx) => {
     const li = document.createElement("li");
     li.className = "result-item";
+    const imageUrl = item.image_url ? `${apiBase}${encodeURI(item.image_url)}` : "";
     li.innerHTML = `
       <div><strong>#${idx + 1}</strong></div>
       <div>Filename: ${item.filename ?? ""}</div>
       <div>Score: ${item.score ?? ""}</div>
       <div>Path: ${item.path ?? ""}</div>
+      ${imageUrl ? `<img class="result-image" src="${imageUrl}" alt="${item.filename ?? "result"}" />` : ""}
     `;
     resultsEl.appendChild(li);
   });
@@ -71,6 +84,7 @@ async function searchText() {
   const url = `${apiBase}/search-text?q=${encodeURIComponent(q)}&k=${k}`;
   const res = await fetch(url);
   const data = await res.json();
+  setTranslated(data.translated);
   renderResults(data.results || []);
   setStatus("Done");
   searchBtn.disabled = false;
@@ -97,6 +111,7 @@ async function searchImage() {
   });
 
   const data = await res.json();
+  setTranslated(data.translated);
   renderResults(data.results || []);
   setStatus("Done");
   searchBtn.disabled = false;
@@ -105,6 +120,7 @@ async function searchImage() {
 searchBtn.addEventListener("click", async () => {
   const mode = document.querySelector("input[name='mode']:checked").value;
   try {
+    setTranslated("");
     if (mode === "text") {
       await searchText();
     } else {

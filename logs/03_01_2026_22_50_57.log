@@ -1,0 +1,111 @@
+{"base_dir": "C:\\Users\\pkdee\\projects\\semantic-image-search", "timestamp": "2026-03-01T17:20:57.792419Z", "level": "info", "event": "BASE_DIR resolved successfully"}
+{"env_path": "C:\\Users\\pkdee\\projects\\semantic-image-search\\.env", "timestamp": "2026-03-01T17:20:57.795417Z", "level": "info", "event": ".env loaded successfully"}
+{"value": "notebook\\images", "timestamp": "2026-03-01T17:20:57.795417Z", "level": "info", "event": "IMAGES_ROOT configured"}
+{"value": "C:\\Users\\pkdee\\projects\\semantic-image-search\\data\\query_images", "timestamp": "2026-03-01T17:20:57.795417Z", "level": "info", "event": "QUERY_IMAGE_ROOT configured"}
+{"value": "C:\\Users\\pkdee\\projects\\semantic-image-search\\data\\retrieved", "timestamp": "2026-03-01T17:20:57.802842Z", "level": "info", "event": "RETRIEVED_ROOT configured"}
+{"value": "ViT-B-32", "timestamp": "2026-03-01T17:20:57.803842Z", "level": "info", "event": "CLIP_MODEL_NAME loaded"}
+{"value": "laion2b_s34b_b79k", "timestamp": "2026-03-01T17:20:57.803842Z", "level": "info", "event": "CLIP_CHECKPOINT loaded"}
+{"value": "cpu", "timestamp": "2026-03-01T17:20:57.804840Z", "level": "info", "event": "DEVICE selected"}
+{"value": "https://d7b5ea27-f09f-4a75-bf6c-75c70c688518.us-east-1-1.aws.cloud.qdrant.io:6333", "timestamp": "2026-03-01T17:20:57.804840Z", "level": "info", "event": "QDRANT_URL loaded"}
+{"timestamp": "2026-03-01T17:20:57.805842Z", "level": "info", "event": "QDRANT_API_KEY loaded (hidden)"}
+{"value": "semantic-image-search", "timestamp": "2026-03-01T17:20:57.805842Z", "level": "info", "event": "QDRANT_COLLECTION loaded"}
+{"value": 512, "timestamp": "2026-03-01T17:20:57.806842Z", "level": "info", "event": "VECTOR_SIZE loaded"}
+{"value": "gpt-4o-mini", "timestamp": "2026-03-01T17:20:57.806842Z", "level": "info", "event": "OPENAI_MODEL loaded"}
+{"timestamp": "2026-03-01T17:21:00.483283Z", "level": "info", "event": "Initializing ImageSearchService"}
+{"url": "https://d7b5ea27-f09f-4a75-bf6c-75c70c688518.us-east-1-1.aws.cloud.qdrant.io:6333", "using_api_key": true, "timestamp": "2026-03-01T17:21:00.483283Z", "level": "info", "event": "Initializing Qdrant client"}
+HTTP Request: GET https://d7b5ea27-f09f-4a75-bf6c-75c70c688518.us-east-1-1.aws.cloud.qdrant.io:6333 "HTTP/1.1 200 OK"
+{"timestamp": "2026-03-01T17:21:01.527510Z", "level": "info", "event": "Qdrant client initialized successfully"}
+{"timestamp": "2026-03-01T17:21:01.528511Z", "level": "info", "event": "Fetching existing Qdrant collections..."}
+HTTP Request: GET https://d7b5ea27-f09f-4a75-bf6c-75c70c688518.us-east-1-1.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 200 OK"
+{"collection": "semantic-image-search", "timestamp": "2026-03-01T17:21:03.773137Z", "level": "info", "event": "Using existing Qdrant collection"}
+{"collection": "semantic-image-search", "retrieved_root": "C:\\Users\\pkdee\\projects\\semantic-image-search\\data\\retrieved", "timestamp": "2026-03-01T17:21:03.774137Z", "level": "info", "event": "ImageSearchService initialized"}
+{"timestamp": "2026-03-01T17:21:03.774137Z", "level": "info", "event": "Initializing IndexService..."}
+{"timestamp": "2026-03-01T17:21:03.775139Z", "level": "info", "event": "Fetching existing Qdrant collections..."}
+HTTP Request: GET https://d7b5ea27-f09f-4a75-bf6c-75c70c688518.us-east-1-1.aws.cloud.qdrant.io:6333/collections "HTTP/1.1 200 OK"
+{"collection": "semantic-image-search", "timestamp": "2026-03-01T17:21:04.179815Z", "level": "info", "event": "Using existing Qdrant collection"}
+{"collection": "semantic-image-search", "timestamp": "2026-03-01T17:21:04.180818Z", "level": "info", "event": "IndexService initialized successfully"}
+{"timestamp": "2026-03-01T17:21:04.180818Z", "level": "info", "event": "Services initialized successfully"}
+{"query": "yellow color flower", "top_k": 3, "category": null, "timestamp": "2026-03-01T17:21:10.112993Z", "level": "info", "event": "Text search request received"}
+{"model": "gpt-4o-mini", "timestamp": "2026-03-01T17:21:10.112993Z", "level": "info", "event": "Initializing QueryTranslator..."}
+{"timestamp": "2026-03-01T17:21:10.662654Z", "level": "info", "event": "QueryTranslator initialized successfully"}
+{"input_query": "yellow color flower", "timestamp": "2026-03-01T17:21:10.663674Z", "level": "info", "event": "Translating query"}
+{"timestamp": "2026-03-01T17:21:10.664653Z", "level": "info", "event": "Sending translation prompt to LLM"}
+HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+{"original": "yellow color flower", "translated": "Yellow flower", "timestamp": "2026-03-01T17:21:11.683842Z", "level": "info", "event": "Translation completed"}
+{"translated": "Yellow flower", "timestamp": "2026-03-01T17:21:11.684775Z", "level": "info", "event": "Query translated for text search"}
+{"query_text": "Yellow flower", "top_k": 3, "filter": null, "timestamp": "2026-03-01T17:21:11.685860Z", "level": "info", "event": "Text search started"}
+{"model": "ViT-B-32", "checkpoint": "laion2b_s34b_b79k", "device": "cpu", "timestamp": "2026-03-01T17:21:11.686853Z", "level": "info", "event": "Initializing CLIP Embedding Loader"}
+Parsing model identifier. Schema: None, Identifier: ViT-B-32
+Loaded built-in ViT-B-32 model config.
+Instantiating model architecture: CLIP
+Loading full pretrained weights from: C:\Users\pkdee\.cache\huggingface\hub\models--laion--CLIP-ViT-B-32-laion2B-s34B-b79K\snapshots\1a25a446712ba5ee05982a381eed697ef9b435cf\open_clip_model.safetensors
+Final image preprocessing configuration set: {'size': (224, 224), 'mode': 'RGB', 'mean': (0.48145466, 0.4578275, 0.40821073), 'std': (0.26862954, 0.26130258, 0.27577711), 'interpolation': 'bicubic', 'resize_mode': 'shortest', 'fill_color': 0}
+Model ViT-B-32 creation process complete.
+Parsing tokenizer identifier. Schema: None, Identifier: ViT-B-32
+Attempting to load config from built-in: ViT-B-32
+Using default SimpleTokenizer.
+{"timestamp": "2026-03-01T17:21:23.660527Z", "level": "info", "event": "CLIP Embedding Model Loaded Successfully"}
+{"text_preview": "Yellow flower", "timestamp": "2026-03-01T17:21:23.661528Z", "level": "info", "event": "Embedding text"}
+{"vector_dim": 512, "timestamp": "2026-03-01T17:21:23.772193Z", "level": "info", "event": "Text embedding successful"}
+HTTP Request: POST https://d7b5ea27-f09f-4a75-bf6c-75c70c688518.us-east-1-1.aws.cloud.qdrant.io:6333/collections/semantic-image-search/points/query "HTTP/1.1 200 OK"
+{"query_text": "Yellow flower", "total_results": 3, "timestamp": "2026-03-01T17:21:24.765896Z", "level": "info", "event": "Text search completed"}
+{"total_results": 3, "timestamp": "2026-03-01T17:21:24.765896Z", "level": "info", "event": "Text search completed"}
+{"query": "i want to see the yellow color flower", "top_k": 2, "category": null, "timestamp": "2026-03-01T17:23:50.460107Z", "level": "info", "event": "Text search request received"}
+{"input_query": "i want to see the yellow color flower", "timestamp": "2026-03-01T17:23:50.462038Z", "level": "info", "event": "Translating query"}
+{"timestamp": "2026-03-01T17:23:50.463065Z", "level": "info", "event": "Sending translation prompt to LLM"}
+HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+{"original": "i want to see the yellow color flower", "translated": "Yellow flower", "timestamp": "2026-03-01T17:23:51.817656Z", "level": "info", "event": "Translation completed"}
+{"translated": "Yellow flower", "timestamp": "2026-03-01T17:23:51.819677Z", "level": "info", "event": "Query translated for text search"}
+{"query_text": "Yellow flower", "top_k": 2, "filter": null, "timestamp": "2026-03-01T17:23:51.821704Z", "level": "info", "event": "Text search started"}
+{"text_preview": "Yellow flower", "timestamp": "2026-03-01T17:23:51.822709Z", "level": "info", "event": "Embedding text"}
+{"vector_dim": 512, "timestamp": "2026-03-01T17:23:51.960317Z", "level": "info", "event": "Text embedding successful"}
+HTTP Request: POST https://d7b5ea27-f09f-4a75-bf6c-75c70c688518.us-east-1-1.aws.cloud.qdrant.io:6333/collections/semantic-image-search/points/query "HTTP/1.1 200 OK"
+{"query_text": "Yellow flower", "total_results": 2, "timestamp": "2026-03-01T17:23:52.938377Z", "level": "info", "event": "Text search completed"}
+{"total_results": 2, "timestamp": "2026-03-01T17:23:52.939374Z", "level": "info", "event": "Text search completed"}
+{"filename": "dog.avif", "timestamp": "2026-03-01T17:24:46.872074Z", "level": "info", "event": "Image search request received"}
+{"path": "C:\\Users\\pkdee\\projects\\semantic-image-search\\data\\query_images\\dog.avif", "timestamp": "2026-03-01T17:24:46.879046Z", "level": "info", "event": "Uploaded query image saved"}
+{"image_path": "C:\\Users\\pkdee\\projects\\semantic-image-search\\data\\query_images\\dog.avif", "top_k": 2, "filter": null, "timestamp": "2026-03-01T17:24:46.881065Z", "level": "info", "event": "Image search started"}
+{"image": "C:\\Users\\pkdee\\projects\\semantic-image-search\\data\\query_images\\dog.avif", "timestamp": "2026-03-01T17:24:46.882057Z", "level": "info", "event": "Embedding single image"}
+{"vector_dim": 512, "timestamp": "2026-03-01T17:24:47.296839Z", "level": "info", "event": "Single image embedding successful"}
+HTTP Request: POST https://d7b5ea27-f09f-4a75-bf6c-75c70c688518.us-east-1-1.aws.cloud.qdrant.io:6333/collections/semantic-image-search/points/query "HTTP/1.1 200 OK"
+{"image_path": "C:\\Users\\pkdee\\projects\\semantic-image-search\\data\\query_images\\dog.avif", "total_results": 2, "timestamp": "2026-03-01T17:24:48.234117Z", "level": "info", "event": "Image search completed"}
+{"filename": "20260208_164435.jpg", "timestamp": "2026-03-01T17:25:01.240646Z", "level": "info", "event": "Image search request received"}
+{"path": "C:\\Users\\pkdee\\projects\\semantic-image-search\\data\\query_images\\20260208_164435.jpg", "timestamp": "2026-03-01T17:25:01.247663Z", "level": "info", "event": "Uploaded query image saved"}
+{"image_path": "C:\\Users\\pkdee\\projects\\semantic-image-search\\data\\query_images\\20260208_164435.jpg", "top_k": 2, "filter": null, "timestamp": "2026-03-01T17:25:01.250674Z", "level": "info", "event": "Image search started"}
+{"image": "C:\\Users\\pkdee\\projects\\semantic-image-search\\data\\query_images\\20260208_164435.jpg", "timestamp": "2026-03-01T17:25:01.253657Z", "level": "info", "event": "Embedding single image"}
+{"vector_dim": 512, "timestamp": "2026-03-01T17:25:01.416160Z", "level": "info", "event": "Single image embedding successful"}
+HTTP Request: POST https://d7b5ea27-f09f-4a75-bf6c-75c70c688518.us-east-1-1.aws.cloud.qdrant.io:6333/collections/semantic-image-search/points/query "HTTP/1.1 200 OK"
+{"image_path": "C:\\Users\\pkdee\\projects\\semantic-image-search\\data\\query_images\\20260208_164435.jpg", "total_results": 2, "timestamp": "2026-03-01T17:25:04.104779Z", "level": "info", "event": "Image search completed"}
+{"filename": "20260208_164435.jpg", "timestamp": "2026-03-01T17:25:05.957035Z", "level": "info", "event": "Image search request received"}
+{"path": "C:\\Users\\pkdee\\projects\\semantic-image-search\\data\\query_images\\20260208_164435.jpg", "timestamp": "2026-03-01T17:25:05.962099Z", "level": "info", "event": "Uploaded query image saved"}
+{"image_path": "C:\\Users\\pkdee\\projects\\semantic-image-search\\data\\query_images\\20260208_164435.jpg", "top_k": 2, "filter": null, "timestamp": "2026-03-01T17:25:05.964093Z", "level": "info", "event": "Image search started"}
+{"image": "C:\\Users\\pkdee\\projects\\semantic-image-search\\data\\query_images\\20260208_164435.jpg", "timestamp": "2026-03-01T17:25:05.966079Z", "level": "info", "event": "Embedding single image"}
+{"vector_dim": 512, "timestamp": "2026-03-01T17:25:06.130620Z", "level": "info", "event": "Single image embedding successful"}
+HTTP Request: POST https://d7b5ea27-f09f-4a75-bf6c-75c70c688518.us-east-1-1.aws.cloud.qdrant.io:6333/collections/semantic-image-search/points/query "HTTP/1.1 200 OK"
+{"image_path": "C:\\Users\\pkdee\\projects\\semantic-image-search\\data\\query_images\\20260208_164435.jpg", "total_results": 2, "timestamp": "2026-03-01T17:25:06.560819Z", "level": "info", "event": "Image search completed"}
+{"filename": "20260208_164435.jpg", "timestamp": "2026-03-01T17:25:09.065282Z", "level": "info", "event": "Image search request received"}
+{"path": "C:\\Users\\pkdee\\projects\\semantic-image-search\\data\\query_images\\20260208_164435.jpg", "timestamp": "2026-03-01T17:25:09.071685Z", "level": "info", "event": "Uploaded query image saved"}
+{"image_path": "C:\\Users\\pkdee\\projects\\semantic-image-search\\data\\query_images\\20260208_164435.jpg", "top_k": 3, "filter": null, "timestamp": "2026-03-01T17:25:09.073691Z", "level": "info", "event": "Image search started"}
+{"image": "C:\\Users\\pkdee\\projects\\semantic-image-search\\data\\query_images\\20260208_164435.jpg", "timestamp": "2026-03-01T17:25:09.074693Z", "level": "info", "event": "Embedding single image"}
+{"vector_dim": 512, "timestamp": "2026-03-01T17:25:09.234566Z", "level": "info", "event": "Single image embedding successful"}
+HTTP Request: POST https://d7b5ea27-f09f-4a75-bf6c-75c70c688518.us-east-1-1.aws.cloud.qdrant.io:6333/collections/semantic-image-search/points/query "HTTP/1.1 200 OK"
+{"image_path": "C:\\Users\\pkdee\\projects\\semantic-image-search\\data\\query_images\\20260208_164435.jpg", "total_results": 3, "timestamp": "2026-03-01T17:25:09.632756Z", "level": "info", "event": "Image search completed"}
+{"filename": "20260208_164435.jpg", "timestamp": "2026-03-01T17:25:15.139463Z", "level": "info", "event": "Image search request received"}
+{"path": "C:\\Users\\pkdee\\projects\\semantic-image-search\\data\\query_images\\20260208_164435.jpg", "timestamp": "2026-03-01T17:25:15.147475Z", "level": "info", "event": "Uploaded query image saved"}
+{"image_path": "C:\\Users\\pkdee\\projects\\semantic-image-search\\data\\query_images\\20260208_164435.jpg", "top_k": 6, "filter": null, "timestamp": "2026-03-01T17:25:15.149468Z", "level": "info", "event": "Image search started"}
+{"image": "C:\\Users\\pkdee\\projects\\semantic-image-search\\data\\query_images\\20260208_164435.jpg", "timestamp": "2026-03-01T17:25:15.151467Z", "level": "info", "event": "Embedding single image"}
+{"vector_dim": 512, "timestamp": "2026-03-01T17:25:15.324737Z", "level": "info", "event": "Single image embedding successful"}
+HTTP Request: POST https://d7b5ea27-f09f-4a75-bf6c-75c70c688518.us-east-1-1.aws.cloud.qdrant.io:6333/collections/semantic-image-search/points/query "HTTP/1.1 200 OK"
+{"image_path": "C:\\Users\\pkdee\\projects\\semantic-image-search\\data\\query_images\\20260208_164435.jpg", "total_results": 6, "timestamp": "2026-03-01T17:25:16.185165Z", "level": "info", "event": "Image search completed"}
+{"query": "i want to see the yellow color flower", "top_k": 6, "category": null, "timestamp": "2026-03-01T17:26:45.970488Z", "level": "info", "event": "Text search request received"}
+{"input_query": "i want to see the yellow color flower", "timestamp": "2026-03-01T17:26:45.970488Z", "level": "info", "event": "Translating query"}
+{"timestamp": "2026-03-01T17:26:45.971487Z", "level": "info", "event": "Sending translation prompt to LLM"}
+HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+{"original": "i want to see the yellow color flower", "translated": "Yellow flower", "timestamp": "2026-03-01T17:26:47.017188Z", "level": "info", "event": "Translation completed"}
+{"translated": "Yellow flower", "timestamp": "2026-03-01T17:26:47.018195Z", "level": "info", "event": "Query translated for text search"}
+{"query_text": "Yellow flower", "top_k": 6, "filter": null, "timestamp": "2026-03-01T17:26:47.019189Z", "level": "info", "event": "Text search started"}
+{"text_preview": "Yellow flower", "timestamp": "2026-03-01T17:26:47.019189Z", "level": "info", "event": "Embedding text"}
+{"vector_dim": 512, "timestamp": "2026-03-01T17:26:47.125543Z", "level": "info", "event": "Text embedding successful"}
+HTTP Request: POST https://d7b5ea27-f09f-4a75-bf6c-75c70c688518.us-east-1-1.aws.cloud.qdrant.io:6333/collections/semantic-image-search/points/query "HTTP/1.1 200 OK"
+{"query_text": "Yellow flower", "total_results": 6, "timestamp": "2026-03-01T17:26:48.041740Z", "level": "info", "event": "Text search completed"}
+{"total_results": 6, "timestamp": "2026-03-01T17:26:48.043729Z", "level": "info", "event": "Text search completed"}
