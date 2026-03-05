@@ -1,4 +1,4 @@
-const apiBase = "http://127.0.0.1:8000";
+const apiBase = "https://semantic-image-search-3778.onrender.com/";
 
 const modeInputs = document.querySelectorAll("input[name='mode']");
 const textField = document.getElementById("textField");
