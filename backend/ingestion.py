@@ -3,11 +3,11 @@ from uuid import uuid5, NAMESPACE_URL
 from typing import Optional, List, Dict, Any
 from qdrant_client.http import models
 
-from config import Config
-from qdrant_client import QdrantClientManager
-from embeddings import embed_image_paths
-from logger import GLOBAL_LOGGER as log
-from exception.custom_exception import SemanticImageSearchException
+from backend.config import Config
+from backend.qdrant_client import QdrantClientManager
+from backend.embeddings import embed_image_paths
+from backend.logger import GLOBAL_LOGGER as log
+from backend.exception.custom_exception import SemanticImageSearchException
 
 
 class IndexService:
