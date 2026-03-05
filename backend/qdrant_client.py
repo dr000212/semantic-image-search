@@ -1,8 +1,8 @@
 from qdrant_client import QdrantClient
 from qdrant_client.http import models
-from backend.config import Config
-from backend.logger import GLOBAL_LOGGER as log
-from backend.exception.custom_exception import SemanticImageSearchException
+from config import Config
+from logger import GLOBAL_LOGGER as log
+from exception.custom_exception import SemanticImageSearchException
 
 
 class QdrantClientManager:

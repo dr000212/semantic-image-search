@@ -7,12 +7,12 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 
-from backend.config import Config
-from backend.query_translator import translate_query
-from backend.ingestion import IndexService
-from backend.retriever import ImageSearchService
-from backend.logger import GLOBAL_LOGGER as log
-from backend.exception.custom_exception import SemanticImageSearchException
+from config import Config
+from query_translator import translate_query
+from ingestion import IndexService
+from retriever import ImageSearchService
+from logger import GLOBAL_LOGGER as log
+from exception.custom_exception import SemanticImageSearchException
 
 
 app = FastAPI(

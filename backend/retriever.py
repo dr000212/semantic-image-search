@@ -5,14 +5,14 @@ from typing import Dict, Any, Optional, List
 from qdrant_client.http import models
 from PIL import Image
 
-from backend.config import Config
-from backend.qdrant_client import QdrantClientManager
-from backend.embeddings import (
+from config import Config
+from qdrant_client import QdrantClientManager
+from embeddings import (
     embed_text,
     embed_single_image,
 )
-from backend.logger import GLOBAL_LOGGER as log
-from backend.exception.custom_exception import SemanticImageSearchException
+from logger import GLOBAL_LOGGER as log
+from exception.custom_exception import SemanticImageSearchException
 
 
 class ImageSearchService:
