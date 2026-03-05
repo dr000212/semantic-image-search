@@ -52,6 +52,7 @@ class ImageSearchService:
         self,
         query_text: str,
         k: int = 5,
+        score_threshold: Optional[float] = None,
         metadata_filter: Optional[Dict[str, Any]] = None,
     ):
         log.info(
@@ -83,7 +84,10 @@ class ImageSearchService:
             results = self.client.query_points(
                 collection_name=self.collection,
                 query=vector,
+                using="default",
+                query_filter=q_filter,
                 limit=k,
+                score_threshold=score_threshold,
                 with_payload=True,
                 with_vectors=False
             )
@@ -107,6 +111,7 @@ class ImageSearchService:
         self,
         image_path: str,
         k: int = 5,
+        score_threshold: Optional[float] = None,
         metadata_filter: Optional[Dict[str, Any]] = None,
     ):
         log.info(
@@ -138,7 +143,10 @@ class ImageSearchService:
             results = self.client.query_points(
                 collection_name=self.collection,
                 query=vector,
+                using="default",
+                query_filter=q_filter,
                 limit=k,
+                score_threshold=score_threshold,
                 with_payload=True,
                 with_vectors=False
             )

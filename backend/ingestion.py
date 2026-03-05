@@ -1,5 +1,5 @@
 import os
-from uuid import uuid4
+from uuid import uuid5, NAMESPACE_URL
 from typing import Optional, List, Dict, Any
 from qdrant_client.http import models
 
@@ -36,6 +36,12 @@ class IndexService:
     # ---------------------------------------------------------
     # Single Image Index
     # ---------------------------------------------------------
+    @staticmethod
+    def _point_id_from_path(image_path: str) -> str:
+        # Deterministic ID prevents duplicate points on repeated ingest.
+        normalized = os.path.abspath(image_path).replace("\\", "/").lower()
+        return str(uuid5(NAMESPACE_URL, normalized))
+
     def index_image(self, image_path: str, category: Optional[str] = None):
         log.info("Indexing single image", image=image_path, category=category)
 
@@ -52,8 +58,8 @@ class IndexService:
                 collection_name=self.collection,
                 points=[
                     models.PointStruct(
-                        id=str(uuid4()),
-                        vector=vec,
+                        id=self._point_id_from_path(image_path),
+                        vector={"default": vec},
                         payload=payload,
                     )
                 ],
@@ -101,8 +107,8 @@ class IndexService:
 
                 points = [
                     models.PointStruct(
-                        id=str(uuid4()),
-                        vector=vector,
+                        id=self._point_id_from_path(payload["path"]),
+                        vector={"default": vector},
                         payload=payload,
                     )
                     for vector, payload in zip(vectors, payloads)

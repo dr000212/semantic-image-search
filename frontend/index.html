@@ -10,10 +10,11 @@
   <main class="app">
     <header class="header">
       <h1>Semantic Image Search</h1>
-      <p>Search by text or image. Adjust k (1-6). Results show filename and score.</p>
+      <p>Semantic Image Search is an AI image retrieval app that finds relevant images from text or image queries. It uses CLIP embeddings and Qdrant vector search to return the best matching results first.</p>
     </header>
 
-    <section class="panel">
+    <section class="panel input-panel">
+      <h2 class="panel-title">Input 😊</h2>
       <div class="mode">
         <label>
           <input type="radio" name="mode" value="text" checked />
@@ -36,8 +37,8 @@
       </div>
 
       <div class="field">
-        <label for="kRange">k value: <span id="kValue">3</span></label>
-        <input id="kRange" type="range" min="1" max="6" step="1" value="3" />
+        <label for="kRange">Photos to show: <span id="kValue">5</span></label>
+        <input id="kRange" type="range" min="1" max="20" step="1" value="5" />
       </div>
 
       <div class="actions">
@@ -45,9 +46,9 @@
       </div>
     </section>
 
-    <section class="panel">
-      <h2>Results</h2>
-      <div id="status" class="status">Idle</div>
+    <section class="panel output-panel">
+      <h2 class="panel-title">Output</h2>
+      <div id="status" class="status"></div>
       <div id="translated" class="translated hidden"></div>
       <ul id="results" class="results"></ul>
     </section>

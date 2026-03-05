@@ -61,9 +61,7 @@ function renderResults(items) {
     const imageUrl = item.image_url ? `${apiBase}${encodeURI(item.image_url)}` : "";
     li.innerHTML = `
       <div><strong>#${idx + 1}</strong></div>
-      <div>Filename: ${item.filename ?? ""}</div>
-      <div>Score: ${item.score ?? ""}</div>
-      <div>Path: ${item.path ?? ""}</div>
+      <div>Similarity score: ${item.score ?? ""}</div>
       ${imageUrl ? `<img class="result-image" src="${imageUrl}" alt="${item.filename ?? "result"}" />` : ""}
     `;
     resultsEl.appendChild(li);

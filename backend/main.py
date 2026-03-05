@@ -52,14 +52,12 @@ def _image_url(path_value: str) -> Optional[str]:
         return None
     p = Path(path_value)
     image_root = Config.IMAGES_ROOT.resolve()
-    notebook_images = (Config.BASE_DIR / "notebook" / "images").resolve()
 
     candidates = []
     if p.is_absolute():
         candidates.append(p.resolve())
     else:
         candidates.append((Config.BASE_DIR / p).resolve())
-        candidates.append((Config.BASE_DIR / "notebook" / p).resolve())
 
     for cand in candidates:
         try:
@@ -67,13 +65,28 @@ def _image_url(path_value: str) -> Optional[str]:
             return f"/images/{rel.as_posix()}"
         except Exception:
             pass
-        try:
-            rel = cand.relative_to(notebook_images)
-            return f"/images/{rel.as_posix()}"
-        except Exception:
-            pass
 
     return None
+
+
+def _unique_result_items(results) -> list[dict]:
+    seen_paths = set()
+    items = []
+    for p in results.points:
+        path_value = p.payload.get("path")
+        if path_value in seen_paths:
+            continue
+        seen_paths.add(path_value)
+        items.append(
+            {
+                "filename": p.payload.get("filename"),
+                "path": path_value,
+                "category": p.payload.get("category"),
+                "score": p.score,
+                "image_url": _image_url(path_value),
+            }
+        )
+    return items
 
 
 # ---------------------------------------------------------
@@ -119,11 +132,11 @@ def translate(q: str):
 @app.get("/search-text")
 def search_text_endpoint(
     q: str,
-    k: int = 5,
+    k: int = Query(5, ge=1, le=50),
     category: Optional[str] = None,
     save_results: bool = False,
 ):
-    log.info("Text search request received", query=q, top_k=k, category=category)
+    log.info("Text search request received", query=q, k=k, category=category)
 
     try:
         translated = translate_query(q)
@@ -131,27 +144,28 @@ def search_text_endpoint(
 
         metadata_filter = {"category": category} if category else None
 
-        results = search_service.search_by_text(translated, k=k, metadata_filter=metadata_filter)
+        results = search_service.search_by_text(
+            translated,
+            k=k,
+            metadata_filter=metadata_filter,
+        )
 
         log.info("Text search completed", total_results=len(results.points))
 
-        resp = [
-            {
-                "filename": p.payload.get("filename"),
-                "path": p.payload.get("path"),
-                "category": p.payload.get("category"),
-                "score": p.score,
-                "image_url": _image_url(p.payload.get("path")),
-            }
-            for p in results.points
-        ]
+        resp = _unique_result_items(results)
 
         folder = None
         if save_results and results.points:
             folder = search_service.save_results(results)
             log.info("Search results saved locally", folder=folder)
 
-        return {"query": q, "translated": translated, "k": k, "saved_folder": folder, "results": resp}
+        return {
+            "query": q,
+            "translated": translated,
+            "k": k,
+            "saved_folder": folder,
+            "results": resp,
+        }
 
     except Exception as e:
         log.error("Text search failed", query=q, error=str(e))
@@ -164,7 +178,7 @@ def search_text_endpoint(
 @app.post("/search-image")
 def search_image_endpoint(
     file: UploadFile = File(...),
-    k: int = 5,
+    k: int = Query(5, ge=1, le=50),
     category: Optional[str] = None,
     save_results: bool = False,
 ):
@@ -184,25 +198,25 @@ def search_image_endpoint(
 
         metadata_filter = {"category": category} if category else None
 
-        results = search_service.search_by_image(str(query_path), k=k, metadata_filter=metadata_filter)
+        results = search_service.search_by_image(
+            str(query_path),
+            k=k,
+            metadata_filter=metadata_filter,
+        )
 
-        resp = [
-            {
-                "filename": p.payload.get("filename"),
-                "path": p.payload.get("path"),
-                "category": p.payload.get("category"),
-                "score": p.score,
-                "image_url": _image_url(p.payload.get("path")),
-            }
-            for p in results.points
-        ]
+        resp = _unique_result_items(results)
 
         folder = None
         if save_results and results.points:
             folder = search_service.save_results(results)
             log.info("Search results saved locally", folder=folder)
 
-        return {"query_image": str(query_path), "k": k, "saved_folder": folder, "results": resp}
+        return {
+            "query_image": str(query_path),
+            "k": k,
+            "saved_folder": folder,
+            "results": resp,
+        }
 
     except Exception as e:
         log.error("Image search failed", filename=file.filename, error=str(e))
