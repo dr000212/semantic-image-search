@@ -56,6 +56,12 @@ class Config:
     DEVICE: str = os.getenv("DEVICE", "cpu")
     log.info("DEVICE selected", value=DEVICE)
 
+    PRELOAD_TRANSLATOR_ON_STARTUP: bool = os.getenv("PRELOAD_TRANSLATOR_ON_STARTUP", "true").lower() == "true"
+    log.info("PRELOAD_TRANSLATOR_ON_STARTUP loaded", value=PRELOAD_TRANSLATOR_ON_STARTUP)
+
+    PRELOAD_CLIP_ON_STARTUP: bool = os.getenv("PRELOAD_CLIP_ON_STARTUP", "true").lower() == "true"
+    log.info("PRELOAD_CLIP_ON_STARTUP loaded", value=PRELOAD_CLIP_ON_STARTUP)
+
     # ------------------- QDRANT -------------------
     QDRANT_URL: str = os.getenv("QDRANT_URL")
     if QDRANT_URL:

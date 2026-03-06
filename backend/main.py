@@ -8,7 +8,8 @@ from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 
 from backend.config import Config
-from backend.query_translator import translate_query
+from backend.query_translator import translate_query, get_translator
+from backend.embeddings import get_loader
 from backend.ingestion import IndexService
 from backend.retriever import ImageSearchService
 from backend.logger import GLOBAL_LOGGER as log
@@ -44,6 +45,17 @@ def init_services():
     global search_service, index_service
     search_service = ImageSearchService()
     index_service = IndexService()
+
+    if Config.PRELOAD_TRANSLATOR_ON_STARTUP:
+        log.info("Preloading query translator on startup")
+        get_translator()
+        log.info("Query translator preloaded")
+
+    if Config.PRELOAD_CLIP_ON_STARTUP:
+        log.info("Preloading CLIP embedder on startup")
+        get_loader()
+        log.info("CLIP embedder preloaded")
+
     log.info("Services initialized successfully")
 
 

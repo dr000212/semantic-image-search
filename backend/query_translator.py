@@ -81,10 +81,14 @@ Respond with only the rewritten caption.
 _translator_instance = None
 _translator_lock = threading.Lock()
 
-def translate_query(user_query: str) -> str:
+def get_translator() -> QueryTranslator:
     global _translator_instance
     if _translator_instance is None:
         with _translator_lock:
             if _translator_instance is None:
                 _translator_instance = QueryTranslator()
-    return _translator_instance.translate(user_query)
+    return _translator_instance
+
+
+def translate_query(user_query: str) -> str:
+    return get_translator().translate(user_query)
