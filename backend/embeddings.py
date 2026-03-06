@@ -1,5 +1,6 @@
 import os
 import sys
+import threading
 from typing import List
 from langchain_experimental.open_clip import OpenCLIPEmbeddings
 from backend.config import Config
@@ -97,12 +98,15 @@ class EmbeddingLoader:
 # OPTIONAL: LAZY SINGLETON
 # -------------------------------------------------------------
 _embedding_loader = None
+_embedding_loader_lock = threading.Lock()
 
 
 def get_loader() -> EmbeddingLoader:
     global _embedding_loader
     if _embedding_loader is None:
-        _embedding_loader = EmbeddingLoader()
+        with _embedding_loader_lock:
+            if _embedding_loader is None:
+                _embedding_loader = EmbeddingLoader()
     return _embedding_loader
 
 

@@ -1,5 +1,6 @@
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import PromptTemplate
+import threading
 from backend.config import Config
 from backend.logger import GLOBAL_LOGGER as log
 from backend.exception.custom_exception import SemanticImageSearchException
@@ -78,9 +79,12 @@ Respond with only the rewritten caption.
 
 # ---- Lazy Singleton ----
 _translator_instance = None
+_translator_lock = threading.Lock()
 
 def translate_query(user_query: str) -> str:
     global _translator_instance
     if _translator_instance is None:
-        _translator_instance = QueryTranslator()
+        with _translator_lock:
+            if _translator_instance is None:
+                _translator_instance = QueryTranslator()
     return _translator_instance.translate(user_query)
